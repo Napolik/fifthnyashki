@@ -2,15 +2,8 @@ class Fifteen extends HTMLElement {
   constructor() {
     super();
 
-    this.winCondition = [[1, 1], [2, 2], [3, 3], [4, 4],
-      [5, 5], [6, 6], [7, 7], [8, 8],
-      [9, 9], [10, 10], [11, 11], [12, 12],
-      [13, 13], [14, 14], [15, 15], [0, 0]];
-
-    this.currentState = [[[1, 1], [2, 2], [3, 3], [4, 4]],
-      [[5, 5], [6, 6], [7, 7], [8, 8]],
-      [[9, 9], [10, 10], [11, 11], [12, 12]],
-      [[13, 13], [14, 14], [15, 15], [0, 0]]];
+    this.winCondition = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]];
+    this.currentState = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]];
 
     this.init();
   }
@@ -18,6 +11,7 @@ class Fifteen extends HTMLElement {
   init() {
     this.drawTable();
     this.eventListener();
+    this.shuffle();
   }
 
   eventListener() {
@@ -34,8 +28,8 @@ class Fifteen extends HTMLElement {
       for (let j = 0; j < this.currentState[i].length; j++) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
-        cell.innerHTML = this.currentState[i][j][1];
-        if (this.currentState[i][j][1] === 0) {
+        cell.innerHTML = this.currentState[i][j];
+        if (this.currentState[i][j] === 0) {
           cell.innerHTML = '';
         }
         this.querySelector('.table').append(cell);
@@ -48,29 +42,37 @@ class Fifteen extends HTMLElement {
     const lineIndex = Math.floor(index / lineLength);
     const inlineIndex = index - lineIndex * lineLength;
 
-    let selectedCell = this.currentState[lineIndex][inlineIndex];
-    let rightCell = this.currentState[lineIndex][inlineIndex + 1];
-    let leftCell = this.currentState[lineIndex][inlineIndex - 1];
-    let topCell = this.currentState[lineIndex - 1]?.[inlineIndex];
-    let bottomCell = this.currentState[lineIndex + 1]?.[inlineIndex];
+    const selectedCell = this.currentState[lineIndex][inlineIndex];
+    const rightCell = this.currentState[lineIndex][inlineIndex + 1];
+    const leftCell = this.currentState[lineIndex][inlineIndex - 1];
+    const topCell = this.currentState[lineIndex - 1]?.[inlineIndex];
+    const bottomCell = this.currentState[lineIndex + 1]?.[inlineIndex];
 
     switch (0) {
-      case rightCell?.[1] :
+      case rightCell :
         [this.currentState[lineIndex][inlineIndex + 1], this.currentState[lineIndex][inlineIndex]] = [selectedCell, rightCell];
         this.drawTable();
         break;
-      case leftCell?.[1] :
+      case leftCell :
         [this.currentState[lineIndex][inlineIndex - 1], this.currentState[lineIndex][inlineIndex]] = [selectedCell, leftCell];
         this.drawTable();
         break;
-      case topCell?.[1] :
+      case topCell :
         [this.currentState[lineIndex - 1][inlineIndex], this.currentState[lineIndex][inlineIndex]] = [selectedCell, topCell];
         this.drawTable();
         break;
-      case bottomCell?.[1] :
+      case bottomCell :
         [this.currentState[lineIndex + 1][inlineIndex], this.currentState[lineIndex][inlineIndex]] = [selectedCell, bottomCell];
         this.drawTable();
         break;
+    }
+  }
+
+  shuffle() {
+    const randomNumber =  Math.floor(Math.random() * 15);
+    console.log(randomNumber);
+    for (let i = 0; i < this.winCondition.length; i++) {
+      console.log(i);
     }
   }
 
