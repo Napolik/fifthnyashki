@@ -12,14 +12,20 @@ class Fifteen extends HTMLElement {
     this.currentState = this.shuffle();
     this.drawTable();
     this.eventListener();
-    this.shuffle();
   }
 
   eventListener() {
     this.addEventListener('click', (e) => {
       const index = Array.from(e.target.parentNode.children).indexOf(e.target);
       this.moveCell(index);
+      this.checkWin();
     });
+  }
+
+  checkWin() {
+    if (this.currentState === this.winCondition) {
+      this.querySelector('h1').classList.add('win');
+    }
   }
 
   drawTable() {

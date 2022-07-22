@@ -268,6 +268,17 @@ textarea {
   flex-wrap: wrap;
 }
 
+h1 {
+  display: none;
+  position: relative;
+  font-size: 150px;
+  text-align: center;
+}
+
+h1.win {
+  display: block;
+}
+
 .cell {
   display: flex;
   justify-content: center;
@@ -279,3 +290,4 @@ textarea {
   font-family: monospace, sans-serif;
   cursor: pointer;
 }
+
