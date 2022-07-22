@@ -9,6 +9,7 @@ class Fifteen extends HTMLElement {
   }
 
   init() {
+    this.currentState = this.shuffle();
     this.drawTable();
     this.eventListener();
     this.shuffle();
@@ -69,11 +70,42 @@ class Fifteen extends HTMLElement {
   }
 
   shuffle() {
-    const randomNumber =  Math.floor(Math.random() * 15);
-    console.log(randomNumber);
+    let singleArray = [];
+
     for (let i = 0; i < this.winCondition.length; i++) {
-      console.log(i);
+      for (let j = 0; j < this.winCondition[i].length; j++) {
+        singleArray.push(this.winCondition[i][j]);
+      }
     }
+
+    const shuffledArray = this.shuffleSingle(singleArray);
+
+    let cellArray = [];
+    let resultArray = [];
+    for (let cell = 0; cell < 16; cell++) {
+      cellArray.push(shuffledArray[cell]);
+
+      if (cellArray.length === 4) {
+        resultArray.push(cellArray);
+        cellArray = [];
+      }
+    }
+
+    return resultArray;
+  }
+
+  shuffleSingle(array) {
+    let currentIndex = array.length, randomIndex;
+
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
   }
 
 }
